@@ -2,4 +2,6 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home2/qqkzfxmy/public_html/salon-emploi/
-    - /bin/cp -r salon-emploi/* $DEPLOYPATH
+    - /bin/cp salon-emploi/salon-emploi.html $DEPLOYPATH
+    - /bin/cp salon-emploi/claude-proxy.php $DEPLOYPATH
+    - /bin/cp salon-emploi/.htaccess $DEPLOYPATH
