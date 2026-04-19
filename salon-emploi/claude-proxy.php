@@ -1,6 +1,6 @@
 <?php
 // P&S Lab - Claude API Proxy
-// Clé injectée automatiquement par GitHub Actions depuis les secrets
+// Déposer dans : public_html/salon-emploi/claude-proxy.php
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: https://pscreativelab.ca');
@@ -18,7 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
-define('ANTHROPIC_API_KEY', 'YOUR_ANTHROPIC_API_KEY');
+// Clé API — ne jamais exposer côté client
+define('ANTHROPIC_API_KEY', getenv('ANTHROPIC_API_KEY') ?: 'METTRE_CLE_ICI');
 
 $input = json_decode(file_get_contents('php://input'), true);
 if (!$input) {
@@ -27,12 +28,12 @@ if (!$input) {
     exit();
 }
 
-// Rate limiting par IP
+// Rate limiting simple par IP (optionnel mais recommandé)
 $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
 $rate_file = sys_get_temp_dir() . '/pslab_rate_' . md5($ip) . '.json';
 $now = time();
-$window = 3600;
-$max_requests = 20;
+$window = 3600; // 1 heure
+$max_requests = 20; // max 20 analyses par IP par heure
 
 if (file_exists($rate_file)) {
     $rate_data = json_decode(file_get_contents($rate_file), true);
@@ -48,11 +49,12 @@ if (file_exists($rate_file)) {
 }
 file_put_contents($rate_file, json_encode($rate_data));
 
+// Appel API Anthropic
 $payload = [
-    'model'    => 'claude-sonnet-4-20250514',
+    'model'      => 'claude-sonnet-4-20250514',
     'max_tokens' => 2000,
-    'system'   => $input['system'] ?? '',
-    'messages' => $input['messages'] ?? [],
+    'system'     => $input['system'] ?? '',
+    'messages'   => $input['messages'] ?? [],
 ];
 
 $ch = curl_init('https://api.anthropic.com/v1/messages');
@@ -65,7 +67,7 @@ curl_setopt_array($ch, [
         'x-api-key: ' . ANTHROPIC_API_KEY,
         'anthropic-version: 2023-06-01',
     ],
-    CURLOPT_TIMEOUT => 60,
+    CURLOPT_TIMEOUT        => 60,
 ]);
 
 $response = curl_exec($ch);
