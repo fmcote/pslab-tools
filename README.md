@@ -1,33 +1,22 @@
 # PSLab Tools
 
-Infrastructure de déploiement pour les outils web de P&S Lab.
+Outils IA déployés sur pscreativelab.ca
 
 ## Structure
-
 ```
-pslab-tools/
-├── salon-emploi/          # Analyseur CV - Salon emploi 23 avril 2026
-│   ├── index.html         # Interface utilisateur
-│   └── claude-proxy.php   # Proxy API Anthropic (clé côté serveur)
-├── .github/
-│   └── workflows/
-│       └── deploy.yml     # CI/CD auto-déploiement vers Bluehost
-└── README.md
+salon-emploi/
+  salon-emploi.html   # Interface CV analyser
+  claude-proxy.php    # Proxy API Anthropic (clé côté serveur)
 ```
 
 ## Déploiement
+Connecté à Bluehost via Git Version Control.
+Push sur `main` → déploiement automatique sur pscreativelab.ca/salon-emploi/
 
-Push sur `main` → déploiement automatique sur pscreativelab.ca via FTP.
+## Configuration
+La clé API Anthropic est dans `claude-proxy.php` — ne jamais committer une vraie clé.
+Utiliser la variable d'environnement `ANTHROPIC_API_KEY` en production.
 
-## Architecture
-
-- **Frontend** : HTML/CSS/JS statique
-- **Backend** : PHP proxy (clé API jamais exposée au client)
-- **Hébergement** : Bluehost (pscreativelab.ca)
-- **CI/CD** : GitHub Actions → FTP deploy
-
-## Ajouter un nouvel outil
-
-1. Créer un dossier `nom-outil/`
-2. Ajouter `index.html` + `proxy.php` si nécessaire
-3. Push → déploiement auto
+## Architecture service
+- `salon-emploi/` — Outil #1 : Analyseur CV pour salon d'emploi
+- (à venir) `outils/` — Autres outils P&S Lab
