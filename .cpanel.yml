@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home2/qqkzfxmy/public_html/salon-emploi/
+    - /bin/cp -r salon-emploi/* $DEPLOYPATH
