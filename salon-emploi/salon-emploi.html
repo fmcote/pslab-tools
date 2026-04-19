@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan de visite · Salon Emploi 23 avril 2026 · P&S Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0f13;
+    --surface: #16181f;
+    --surface2: #1e2029;
+    --border: #2a2d3a;
+    --gold: #f5c842;
+    --gold2: #e8a820;
+    --accent: #5b8ff9;
+    --green: #4ecb71;
+    --red: #f56565;
+    --text: #e8eaf0;
+    --muted: #7b7f94;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --radius: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 32px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: rgba(14,15,19,0.92);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+
+  .topbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+  }
+
+  .topbar-logo img {
+    height: 32px;
+    width: auto;
+  }
+
+  .topbar-back {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .topbar-back:hover { color: var(--gold); }
+
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    color: #1a1200;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 99px;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(30px, 6vw, 50px);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 14px;
+    background: linear-gradient(135deg, var(--text) 0%, var(--gold) 60%, var(--gold2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.6;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  .subtitle strong { color: var(--text); font-weight: 500; }
+
+  /* STEPS */
+  .step-indicator {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 36px;
+  }
+
+  .step-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: all 0.3s;
+  }
+
+  .step-dot.active { background: var(--gold); transform: scale(1.4); }
+  .step-dot.done { background: var(--green); }
+
+  /* CARD */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    margin-bottom: 20px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .card-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* UPLOAD */
+  .upload-zone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 40px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    background: var(--surface2);
+  }
+
+  .upload-zone:hover, .upload-zone.drag-over {
+    border-color: var(--gold);
+    background: rgba(245,200,66,0.04);
+  }
+
+  .upload-zone input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+
+  .upload-icon { font-size: 36px; margin-bottom: 10px; display: block; }
+  .upload-text { font-size: 15px; font-weight: 500; margin-bottom: 5px; }
+  .upload-hint { font-size: 12px; color: var(--muted); }
+
+  .file-ok {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    background: rgba(78,203,113,0.1);
+    border: 1px solid rgba(78,203,113,0.3);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--green);
+    font-weight: 500;
+  }
+
+  .file-ok.show { display: flex; }
+
+  /* TEXTAREA */
+  textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.6;
+    resize: vertical;
+    transition: border-color 0.2s;
+    min-height: 100px;
+  }
+
+  textarea:focus { outline: none; border-color: var(--gold); }
+  textarea::placeholder { color: var(--muted); }
+
+  /* CHIPS */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+
+  .chip {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    padding: 5px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .chip:hover { border-color: var(--gold); color: var(--gold); }
+  .chip.active {
+    background: rgba(245,200,66,0.15);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* BUTTON */
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--gold), var(--gold2));
+    color: #1a1200;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    padding: 16px 36px;
+    border-radius: 99px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(245,200,66,0.3); }
+  .btn:active { transform: translateY(0); }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+  /* LOADING */
+  .loading {
+    display: none;
+    text-align: center;
+    padding: 56px 24px;
+  }
+
+  .loading.show { display: block; }
+
+  .spinner {
+    width: 48px; height: 48px;
+    border: 3px solid var(--border);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 20px;
+  }
+
+  .loading-step {
+    color: var(--gold);
+    font-weight: 500;
+    font-size: 15px;
+    margin-bottom: 8px;
+    min-height: 24px;
+    transition: opacity 0.3s;
+  }
+
+  .loading-text { color: var(--muted); font-size: 13px; }
+
+  /* RESULTS */
+  #results { display: none; }
+  #results.show { display: block; animation: fadeUp 0.5s ease both; }
+
+  .result-header {
+    background: linear-gradient(135deg, rgba(245,200,66,0.1), rgba(232,168,32,0.04));
+    border: 1px solid rgba(245,200,66,0.2);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin-bottom: 16px;
+  }
+
+  .result-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+
+  .result-sub { color: var(--muted); font-size: 13px; }
+
+  .result-body {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  .result-body h2 {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 28px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .result-body h2:first-child { margin-top: 0; }
+  .result-body h3 { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--accent); margin: 16px 0 6px; }
+  .result-body p { margin-bottom: 10px; }
+  .result-body strong { color: var(--gold); font-weight: 600; }
+
+  .result-body ul { list-style: none; margin: 6px 0 14px; }
+  .result-body ul li { padding: 5px 0 5px 20px; position: relative; }
+  .result-body ul li::before { content: '→'; position: absolute; left: 0; color: var(--gold); font-weight: 700; }
+
+  .reset-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: var(--font-body);
+    font-size: 13px;
+    padding: 10px 20px;
+    border-radius: 99px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: block;
+    margin: 20px auto 0;
+  }
+
+  .reset-btn:hover { border-color: var(--text); color: var(--text); }
+
+  /* ERROR */
+  .error-box {
+    background: rgba(245,101,101,0.1);
+    border: 1px solid rgba(245,101,101,0.3);
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: #fc8181;
+    font-size: 14px;
+    margin-top: 10px;
+    display: none;
+  }
+
+  .error-box.show { display: block; }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    opacity: 0.6;
+  }
+
+  .footer a { color: var(--muted); text-decoration: none; }
+  .footer a:hover { color: var(--gold); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 600px) {
+    .topbar { padding: 12px 16px; }
+    .container { padding: 32px 16px 60px; }
+    .card { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="topbar">
+  <a href="https://pscreativelab.ca" class="topbar-logo">
+    <img src="https://pscreativelab.ca/wp-content/uploads/2025/11/PS-Logo-Etsy.png" alt="P&S Lab">
+    P&S Lab
+  </a>
+  <a href="https://pscreativelab.ca" class="topbar-back">← Retour au site</a>
+</div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="badge">Salon de l'emploi · 23 avril 2026</div>
+    <h1>Ton plan de visite<br>sur mesure</h1>
+    <p class="subtitle">
+      Uploade ton CV — l'IA analyse ton profil et génère ta liste d'exposants prioritaires parmi les <strong>163 présents</strong> au Palais des congrès de Montréal.
+    </p>
+  </div>
+
+  <!-- STEPS -->
+  <div class="step-indicator">
+    <div class="step-dot active" id="dot1"></div>
+    <div class="step-dot" id="dot2"></div>
+    <div class="step-dot" id="dot3"></div>
+  </div>
+
+  <!-- FORM -->
+  <div id="form-section">
+
+    <div class="card" style="animation-delay:0.05s">
+      <div class="card-title">01 · Ton CV</div>
+      <div class="upload-zone" id="upload-zone">
+        <input type="file" id="cv-file" accept=".pdf,.txt,.doc,.docx">
+        <span class="upload-icon">📄</span>
+        <div class="upload-text">Glisse ton CV ici ou clique pour choisir</div>
+        <div class="upload-hint">PDF · Word · Texte · Max 5 MB</div>
+      </div>
+      <div class="file-ok" id="file-ok">
+        <span>✅</span>
+        <span id="fname"></span>
+        <span style="color:var(--muted);font-size:12px" id="fsize"></span>
+      </div>
+      <div style="margin-top:18px">
+        <div style="color:var(--muted);font-size:13px;margin-bottom:8px">Ou colle le texte de ton CV ici :</div>
+        <textarea id="cv-text" placeholder="Ex: Analyste RH senior, 8 ans expérience, rémunération, milieu syndiqué, maîtrise RI, compétences tech et IA..."></textarea>
+      </div>
+    </div>
+
+    <div class="card" style="animation-delay:0.1s">
+      <div class="card-title">02 · Ce que tu cherches</div>
+      <textarea id="objectifs" placeholder="Ex: Conseiller RH dans une PME avec latitude. Ouvert à contrat ou permanent. Pas de postes purement administratifs." style="min-height:85px"></textarea>
+      <div style="margin-top:14px;color:var(--muted);font-size:13px;margin-bottom:8px">Formule de travail :</div>
+      <div class="chips" id="chips">
+        <div class="chip active" data-val="temps-plein">Temps plein</div>
+        <div class="chip" data-val="contrat">Contrat</div>
+        <div class="chip" data-val="pigiste">Pigiste</div>
+        <div class="chip" data-val="teletravail">Télétravail prioritaire</div>
+        <div class="chip active" data-val="ouvert">Ouvert aux deux</div>
+      </div>
+    </div>
+
+    <div class="card" style="animation-delay:0.15s">
+      <div class="card-title">03 · Contexte optionnel</div>
+      <textarea id="contexte" placeholder="Ex: Je reviens sur le marché après 2 ans en indépendant. Je veux éviter la grande entreprise bureaucratique..." style="min-height:75px"></textarea>
+    </div>
+
+    <div class="error-box" id="error-box"><span id="error-msg"></span></div>
+
+    <button class="btn" id="analyze-btn" onclick="startAnalysis()">
+      🔍 &nbsp;Analyser mon profil et générer mon plan
+    </button>
+  </div>
+
+  <!-- LOADING -->
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <div class="loading-step" id="loading-step">Lecture du CV...</div>
+    <div class="loading-text">Analyse en cours · comparaison avec 163 exposants</div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="result-header">
+      <div class="result-title">⭐ Ton plan personnalisé</div>
+      <div class="result-sub">Salon de l'emploi · Palais des congrès de Montréal · 23 avril 2026</div>
+    </div>
+    <div class="result-body" id="result-body"></div>
+    <button class="reset-btn" onclick="resetForm()">↩ Analyser un autre profil</button>
+  </div>
+
+  <div class="footer">
+    Un outil de <a href="https://pscreativelab.ca">P&S Lab</a> · Propulsé par Claude (Anthropic) · Données : L'Événement Carrières 2026
+  </div>
+
+</div>
+
+<script>
+const PROXY_URL = 'claude-proxy.php';
+
+const EXPOSANTS = [{"n":"AAA Canada","type":"Employeur","d":"Transport/Logistique","s":"Privé"},{"n":"Action SST","type":"Employeur/Conseil","d":"Santé-Sécurité au travail","s":"PME"},{"n":"Adria Power Systems","type":"Employeur","d":"Énergie/Ingénierie","s":"Privé"},{"n":"AIM CROIT","type":"Service emploi","d":"Réadaptation/Intégration","s":"OBNL"},{"n":"Air Inuit","type":"Employeur","d":"Transport aérien","s":"Privé"},{"n":"AIRBUS","type":"Employeur","d":"Aérospatiale","s":"Grande entreprise"},{"n":"AIREX-ENERGIE","type":"Employeur","d":"Énergie renouvelable","s":"PME"},{"n":"ALAC","type":"Service emploi","d":"Intégration immigrants","s":"OBNL"},{"n":"Alstom","type":"Employeur","d":"Transport ferroviaire","s":"Grande entreprise"},{"n":"Camo-Route / CFTR","type":"Service emploi","d":"Transport/Formation","s":"OBNL"},{"n":"CARI St-Laurent","type":"Service emploi","d":"Intégration immigrants","s":"OBNL"},{"n":"CDÉM Manitoba","type":"Gouvernement/Éco","d":"Développement économique","s":"Parapublic"},{"n":"CDÉNÉ","type":"Gouvernement/Éco","d":"Développement économique","s":"Parapublic"},{"n":"Cégep de Rosemont / Cégep à distance","type":"Formation","d":"Éducation","s":"Public"},{"n":"Cégep du Vieux Montréal","type":"Formation","d":"Éducation","s":"Public"},{"n":"Cégep Édouard-Montpetit / ÉNA","type":"Formation","d":"Aérospatiale/Éducation","s":"Public"},{"n":"Cégep Marie-Victorin","type":"Formation","d":"Éducation","s":"Public"},{"n":"Cégep Saint-Jean-sur-Richelieu","type":"Formation","d":"Éducation","s":"Public"},{"n":"Centre de Carrières Laurier Macdonald","type":"Service emploi","d":"Aide à l'emploi","s":"Public"},{"n":"Centre de Carrières St-Pius X","type":"Service emploi","d":"Aide à l'emploi","s":"Public"},{"n":"Centre de Formation Premium","type":"Formation","d":"Formation professionnelle","s":"PME"},{"n":"Centre de santé Shadd","type":"Formation","d":"Santé/Commerce","s":"Public"},{"n":"Centre de services scolaire de Montréal","type":"Employeur","d":"Éducation","s":"Public"},{"n":"Centre de services scolaire du Fer","type":"Employeur","d":"Éducation","s":"Public"},{"n":"Centre de services scolaire Marie-Victorin","type":"Employeur","d":"Éducation","s":"Public"},{"n":"Centre de Technologie Rosemont","type":"Formation/Employeur","d":"Technologie/Éducation","s":"Public"},{"n":"Centre des femmes de Montréal","type":"Service emploi","d":"Services sociaux","s":"OBNL"},{"n":"CLIC Laurentides","type":"Service emploi","d":"Intégration immigrants","s":"OBNL"},{"n":"Club de recherche d'emploi Montréal","type":"Service emploi","d":"Aide à l'emploi","s":"OBNL"},{"n":"Co-operators","type":"Employeur","d":"Assurance/Finance","s":"Coopérative"},{"n":"Collège Ahuntsic","type":"Formation","d":"Éducation","s":"Public"},{"n":"Collège BCM","type":"Formation","d":"Formation professionnelle","s":"Privé"},{"n":"Collège CDI","type":"Formation","d":"Tech/TI/Formation","s":"Privé"},{"n":"Collège Champlain Saint-Lambert","type":"Formation","d":"Éducation","s":"Public"},{"n":"Collège de Maisonneuve","type":"Formation","d":"Éducation","s":"Public"},{"n":"Collège Universel","type":"Formation","d":"Formation professionnelle","s":"Privé"},{"n":"CSMO-ÉSAC","type":"Organisme sectoriel","d":"RH/Économie sociale","s":"OBNL"},{"n":"Commission de la construction du Québec (CCQ)","type":"Gouvernement","d":"Construction","s":"Parapublic"},{"n":"Commission des services électriques de Montréal","type":"Employeur","d":"Infrastructures électriques","s":"Parapublic"},{"n":"Conseil Économique Saskatchewan","type":"Gouvernement/Éco","d":"Développement économique","s":"Parapublic"},{"n":"Conseil en Éducation des Premières Nations","type":"Employeur/Organisme","d":"Éducation/Premières Nations","s":"OBNL"},{"n":"CPQMCI","type":"Syndicat","d":"Construction/Syndicat","s":"Syndicat"},{"n":"Costco Wholesale","type":"Employeur","d":"Commerce de détail","s":"Grande entreprise"},{"n":"CSD Construction","type":"Syndicat","d":"Construction/Syndicat","s":"Syndicat"},{"n":"CTMA Traversier","type":"Employeur","d":"Transport maritime","s":"Coopérative"},{"n":"Cultive","type":"Employeur/Conseil","d":"Conseil/RH/Organisationnel","s":"PME"},{"n":"Delsan-A.I.M. Inc.","type":"Employeur","d":"Démolition/Environnement","s":"PME"},{"n":"Demospec","type":"Employeur","d":"Ingénierie/Conseil","s":"PME"},{"n":"DX Mobilier Événementiel","type":"Employeur","d":"Événementiel/Mobilier","s":"PME"},{"n":"ECF College de langues","type":"Formation","d":"Langues/Formation","s":"Privé"},{"n":"École des métiers des Faubourgs-de-Montréal","type":"Formation/Employeur","d":"Métiers/Éducation","s":"Public"},{"n":"Emplois en régions","type":"Service emploi","d":"Aide à l'emploi/Régions","s":"OBNL"},{"n":"Emplois filière énergétique","type":"Service emploi","d":"Énergie/Emploi","s":"OBNL"},{"n":"ÉPIK Collection","type":"Employeur","d":"Mode/Commerce","s":"PME"},{"n":"Équipe recrutement éducation NB","type":"Gouvernement","d":"Éducation/Recrutement","s":"Public"},{"n":"Expleo","type":"Employeur","d":"Ingénierie/Tech/Conseil","s":"Grande entreprise"},{"n":"F/LIST","type":"Employeur","d":"Aérospatiale/Luxe","s":"PME"},{"n":"Faculté apprentissage continu UdeM","type":"Formation","d":"Éducation","s":"Public"},{"n":"Fairmont Hotels and Resorts","type":"Employeur","d":"Hôtellerie/Tourisme","s":"Grande entreprise"},{"n":"Financière Sun Life","type":"Employeur","d":"Assurance/Finance","s":"Grande entreprise"},{"n":"Forces Armées Canadiennes","type":"Employeur","d":"Défense/Militaire","s":"Public"},{"n":"Formation continue Concordia","type":"Formation","d":"Éducation","s":"Public"},{"n":"Formation continue Cégep Saint-Hyacinthe","type":"Formation","d":"Éducation","s":"Public"},{"n":"GAL Aerostaff","type":"Employeur","d":"Aérospatiale/Placement","s":"PME"},{"n":"GardaWorld Aviation","type":"Employeur","d":"Sécurité/Aviation","s":"Grande entreprise"},{"n":"GardaWorld Transport de Valeurs","type":"Employeur","d":"Sécurité/Transport valeurs","s":"Grande entreprise"},{"n":"Gardium Sécurité","type":"Employeur","d":"Sécurité","s":"PME"},{"n":"Gestion de patrimoine Manuvie","type":"Employeur","d":"Finance/Assurance","s":"Grande entreprise"},{"n":"Gouvernement NB – Immigration","type":"Gouvernement","d":"Immigration/Recrutement","s":"Public"},{"n":"Groupe Conseil Saint-Denis – CJE","type":"Service emploi","d":"Aide à l'emploi/Conseil","s":"OBNL"},{"n":"Groupe Contex","type":"Employeur","d":"Médias/Communication","s":"PME"},{"n":"Groupe Tecnic Canada","type":"Employeur","d":"Formation conduite/Transport","s":"PME"},{"n":"Grues Jm Francoeur","type":"Employeur","d":"Construction/Équipement lourd","s":"PME"},{"n":"HEC Montréal","type":"Formation","d":"Gestion/MBA","s":"Public"},{"n":"HUTCHINSON AÉRONAUTIQUE","type":"Employeur","d":"Aérospatiale/Manufacture","s":"Grande entreprise"},{"n":"Hydro-Québec","type":"Employeur","d":"Énergie/Électricité","s":"Public"},{"n":"IBM Bromont","type":"Employeur","d":"Tech/Semiconducteurs","s":"Grande entreprise"},{"n":"Info Apprendre","type":"Service emploi/Formation","d":"Orientation/Formation","s":"OBNL"},{"n":"Inicio","type":"Service emploi","d":"Intégration immigrants","s":"OBNL"},{"n":"ITHQ","type":"Formation","d":"Tourisme/Hôtellerie","s":"Public"},{"n":"Institut Grasset","type":"Formation","d":"Formation professionnelle","s":"Privé"},{"n":"ISL Contrôle Inc.","type":"Employeur","d":"Automatisation/Ingénierie","s":"PME"},{"n":"Joblinks","type":"Service emploi","d":"Placement/Recrutement","s":"PME"},{"n":"JPMA GLOBAL","type":"Employeur","d":"Conseil/International","s":"PME"},{"n":"Juste pour rire","type":"Employeur","d":"Culture/Événementiel","s":"PME"},{"n":"Kativik Regional Government","type":"Gouvernement","d":"Administration/Grand Nord","s":"Public"},{"n":"KB Rail Canada","type":"Employeur","d":"Transport ferroviaire","s":"PME"},{"n":"Kruger Inc","type":"Employeur","d":"Manufacture/Papier","s":"Grande entreprise"},{"n":"L'Hirondelle","type":"Service emploi","d":"Intégration immigrants","s":"OBNL"},{"n":"L'Orienthèque | Accès-région","type":"Service emploi","d":"Orientation/Régions","s":"OBNL"},{"n":"L3Harris MAS","type":"Employeur","d":"Aérospatiale/Défense/Tech","s":"Grande entreprise"},{"n":"La Maisonnée","type":"Service emploi","d":"Intégration immigrants","s":"OBNL"},{"n":"La Milanaise","type":"Employeur","d":"Agroalimentaire","s":"PME"},{"n":"Lactalis Canada","type":"Employeur","d":"Agroalimentaire","s":"Grande entreprise"},{"n":"Le Collectif","type":"Employeur/Conseil","d":"Conseil/Communication","s":"PME"},{"n":"Lift-Formation","type":"Formation","d":"Formation professionnelle","s":"PME"},{"n":"LISI AEROSPACE","type":"Employeur","d":"Aérospatiale/Manufacture","s":"Grande entreprise"},{"n":"LOKIA","type":"Employeur","d":"Tech/IA/Numérique","s":"PME"},{"n":"Loto-Québec","type":"Employeur","d":"Divertissement/Gaming","s":"Public"},{"n":"Magnus Poirier","type":"Employeur","d":"Services funéraires","s":"PME"},{"n":"Mediterranean Shipping Company","type":"Employeur","d":"Transport maritime","s":"Grande entreprise"},{"n":"MEL","type":"Employeur","d":"Ingénierie/Électrique","s":"PME"},{"n":"Ministère de l'Emploi et de la Solidarité sociale","type":"Gouvernement","d":"Emploi/Services sociaux","s":"Public"},{"n":"Ministère de la Sécurité publique","type":"Gouvernement","d":"Sécurité publique","s":"Public"},{"n":"Nordikeau","type":"Employeur","d":"Environnement/Eau","s":"PME"},{"n":"NPower Canada","type":"Formation/Service emploi","d":"Tech/Inclusion numérique","s":"OBNL"},{"n":"NSE Automatech","type":"Employeur","d":"Automatisation/Ingénierie","s":"PME"},{"n":"Objectif Emploi","type":"Service emploi","d":"Aide à l'emploi","s":"OBNL"},{"n":"Orange Paysagement","type":"Employeur","d":"Aménagement paysager","s":"PME"},{"n":"Ottawa Police Service","type":"Employeur","d":"Sécurité publique/Police","s":"Public"},{"n":"Parallèle Alberta","type":"Gouvernement/Éco","d":"Développement économique","s":"Parapublic"},{"n":"Polytechnique Montréal","type":"Formation","d":"Ingénierie/Éducation","s":"Public"},{"n":"Prestige Homes / Shaw Group","type":"Employeur","d":"Construction/Immobilier","s":"PME"},{"n":"PRIMERICA","type":"Employeur","d":"Finance/Assurance","s":"Grande entreprise"},{"n":"Proanima","type":"Employeur","d":"Santé animale","s":"PME"},{"n":"Produits Matra Inc","type":"Employeur","d":"Manufacture","s":"PME"},{"n":"PROMIS","type":"Service emploi","d":"Intégration immigrants","s":"OBNL"},{"n":"Qualifications Québec","type":"Service emploi/Formation","d":"Qualification/Emploi","s":"OBNL"},{"n":"Réseau de transport de Longueuil","type":"Employeur","d":"Transport en commun","s":"Public"},{"n":"Ropack Pharma Solutions","type":"Employeur","d":"Pharmaceutique/Manufacture","s":"PME"},{"n":"SAINT-HYACINTHE TECHNOPOLE","type":"Gouvernement/Éco","d":"Innovation/Technopole","s":"Parapublic"},{"n":"Segula Technologies","type":"Employeur","d":"Ingénierie/Conseil Tech","s":"Grande entreprise"},{"n":"Service Correctionnel du Canada","type":"Gouvernement","d":"Justice/Correctionnel","s":"Public"},{"n":"Service de police du Nunavik","type":"Gouvernement","d":"Sécurité publique/Police","s":"Public"},{"n":"Services TGL","type":"Service emploi","d":"Placement/Recrutement","s":"PME"},{"n":"SIMO","type":"Employeur","d":"Ingénierie/Télécoms","s":"PME"},{"n":"TESLA","type":"Employeur","d":"Tech/Automobile électrique","s":"Grande entreprise"},{"n":"Tink Profitabilité Numérique","type":"Employeur/Conseil","d":"Numérique/IA/Conseil","s":"PME"},{"n":"Totem recruteur de talent","type":"Service emploi","d":"Recrutement/RH","s":"PME"},{"n":"Twyce","type":"Employeur/Conseil","d":"Tech/Conseil numérique","s":"PME"},{"n":"Université de Montréal","type":"Formation/Employeur","d":"Éducation/Recherche","s":"Public"},{"n":"Université de Sherbrooke","type":"Formation/Employeur","d":"Éducation/Recherche","s":"Public"},{"n":"UQAM","type":"Formation/Employeur","d":"Éducation/Recherche","s":"Public"},{"n":"Université TÉLUQ","type":"Formation","d":"Éducation à distance","s":"Public"},{"n":"UQO","type":"Formation/Employeur","d":"Éducation/Recherche","s":"Public"},{"n":"Vanier College","type":"Formation","d":"Éducation","s":"Public"},{"n":"Ville de Gatineau","type":"Gouvernement","d":"Administration municipale","s":"Public"},{"n":"Vivre aux Territoires","type":"Gouvernement/Éco","d":"Recrutement/Territoires","s":"Public"},{"n":"WEIR – Génie maritime","type":"Employeur","d":"Ingénierie maritime","s":"Grande entreprise"},{"n":"Y des femmes de Montréal","type":"Service emploi/OBNL","d":"Services femmes/Emploi","s":"OBNL"}];
+
+// Chips
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => chip.classList.toggle('active'));
+});
+
+// Upload
+let cvBase64 = null, cvMime = null, cvName = null;
+const zone = document.getElementById('upload-zone');
+const fileInput = document.getElementById('cv-file');
+
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('drag-over'); if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); });
+fileInput.addEventListener('change', () => { if (fileInput.files[0]) handleFile(fileInput.files[0]); });
+
+function handleFile(file) {
+  if (file.size > 5 * 1024 * 1024) { showError('Fichier trop volumineux (max 5 MB)'); return; }
+  cvName = file.name;
+  cvMime = file.type || 'application/octet-stream';
+  const reader = new FileReader();
+  reader.onload = e => {
+    cvBase64 = e.target.result.split(',')[1];
+    document.getElementById('file-ok').classList.add('show');
+    document.getElementById('fname').textContent = file.name;
+    document.getElementById('fsize').textContent = `(${(file.size/1024).toFixed(0)} KB)`;
+  };
+  reader.readAsDataURL(file);
+}
+
+function showError(msg) {
+  const b = document.getElementById('error-box');
+  document.getElementById('error-msg').textContent = msg;
+  b.classList.add('show');
+  setTimeout(() => b.classList.remove('show'), 5000);
+}
+
+function setStep(n) {
+  [1,2,3].forEach(i => {
+    document.getElementById(`dot${i}`).classList.toggle('done', i < n);
+    document.getElementById(`dot${i}`).classList.toggle('active', i === n);
+  });
+}
+
+function resetForm() {
+  document.getElementById('form-section').style.display = 'block';
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('loading').classList.remove('show');
+  document.getElementById('cv-text').value = '';
+  document.getElementById('objectifs').value = '';
+  document.getElementById('contexte').value = '';
+  document.getElementById('file-ok').classList.remove('show');
+  cvBase64 = null; cvMime = null; cvName = null;
+  setStep(1);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderMd(text) {
+  return text
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/^[-•] (.+)$/gm, '<li>$1</li>')
+    .replace(/(<li>[\s\S]*?<\/li>)\n?(?=<li>|$)/g, m => `<ul>${m}</ul>`)
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/^(?!<[hul])(.+)$/gm, m => m.trim() ? `<p>${m}</p>` : '')
+    .replace(/<p><\/p>/g, '');
+}
+
+async function startAnalysis() {
+  const cvText = document.getElementById('cv-text').value.trim();
+  const objectifs = document.getElementById('objectifs').value.trim();
+  const contexte = document.getElementById('contexte').value.trim();
+  const formules = [...document.querySelectorAll('#chips .chip.active')].map(c => c.dataset.val).join(', ');
+
+  if (!cvText && !cvBase64) { showError('Ajoute ton CV pour continuer.'); return; }
+
+  document.getElementById('form-section').style.display = 'none';
+  document.getElementById('loading').classList.add('show');
+  document.getElementById('analyze-btn').disabled = true;
+  setStep(2);
+
+  const steps = ['Lecture du CV...', 'Analyse du profil...', 'Comparaison avec les 163 exposants...', 'Calcul des priorités...', 'Rédaction du plan...'];
+  let si = 0;
+  const iv = setInterval(() => { if (si < steps.length) document.getElementById('loading-step').textContent = steps[si++]; }, 1800);
+
+  const system = `Tu es un conseiller expert en orientation professionnelle au Québec. Tu analyses les CVs avec précision et génères des plans de visite de salon d'emploi personnalisés, concrets et stratégiques. Tu connais le marché du travail québécois, les PME, les OBNL, le secteur tech/IA et les milieux syndiqués. Sois direct et évite les généralités.`;
+
+  const userPrompt = `CONTEXTE : Salon de l'emploi au Palais des congrès de Montréal, jeudi 23 avril 2026, 10h-18h. 163 exposants présents.
+
+EXPOSANTS (JSON) :
+${JSON.stringify(EXPOSANTS)}
+
+PROFIL CANDIDAT :
+${cvText ? `CV :\n${cvText}` : `Fichier CV : ${cvName}`}
+Objectifs : ${objectifs || 'Non précisés'}
+Formule de travail : ${formules || 'Flexible'}
+Contexte : ${contexte || 'Aucun'}
+
+INSTRUCTIONS :
+1. Résume le profil du candidat en 3-4 lignes (forces distinctives, secteurs d'expérience).
+2. Identifie 8 à 12 exposants prioritaires parmi la liste, justifie brièvement chacun.
+3. Classe en P1 (incontournable) et P2 (si le temps le permet).
+4. Pour chaque P1 : angle d'approche + question clé à poser.
+5. Propose un pitch de 30 secondes adapté au profil.
+6. Plan de visite chronologique (10h-18h).
+7. 2-3 conseils stratégiques personnalisés.
+
+FORMAT : Titres ## , listes avec - . Concis, spécifique, sans bla-bla générique.`;
+
+  const messageContent = [];
+  if (cvBase64 && cvMime === 'application/pdf') {
+    messageContent.push({ type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: cvBase64 } });
+  }
+  messageContent.push({ type: 'text', text: userPrompt });
+
+  try {
+    const resp = await fetch(PROXY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ system, messages: [{ role: 'user', content: messageContent }] })
+    });
+
+    clearInterval(iv);
+
+    if (!resp.ok) {
+      const err = await resp.json().catch(() => ({}));
+      throw new Error(err.error?.message || `Erreur serveur ${resp.status}`);
+    }
+
+    const data = await resp.json();
+    const text = data.content?.find(b => b.type === 'text')?.text || '';
+
+    document.getElementById('loading').classList.remove('show');
+    document.getElementById('result-body').innerHTML = renderMd(text);
+    document.getElementById('results').classList.add('show');
+    setStep(3);
+    window.scrollTo({ top: document.getElementById('results').offsetTop - 20, behavior: 'smooth' });
+
+  } catch (err) {
+    clearInterval(iv);
+    document.getElementById('loading').classList.remove('show');
+    document.getElementById('form-section').style.display = 'block';
+    document.getElementById('analyze-btn').disabled = false;
+    setStep(1);
+    showError(`Erreur : ${err.message}`);
+  }
+}
+</script>
+</body>
+</html>
