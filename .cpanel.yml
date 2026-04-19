@@ -3,6 +3,7 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home2/qqkzfxmy/public_html/salon-emploi/
     - /bin/mkdir -p $DEPLOYPATH
+    - /bin/rm -rf $DEPLOYPATH/salon-emploi
     - /bin/cp -f /home2/qqkzfxmy/public_html/pslab-tools/salon-emploi/salon-emploi.html $DEPLOYPATH
     - /bin/cp -f /home2/qqkzfxmy/public_html/pslab-tools/salon-emploi/claude-proxy.php $DEPLOYPATH
     - /bin/cp -f /home2/qqkzfxmy/public_html/pslab-tools/salon-emploi/.htaccess $DEPLOYPATH
