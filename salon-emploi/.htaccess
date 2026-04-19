@@ -1,0 +1,8 @@
+# PSLab - salon-emploi
+Options -Indexes
+
+# PHP via proxy uniquement
+<Files "claude-proxy.php">
+    Header set Access-Control-Allow-Origin "https://pscreativelab.ca"
+    Header set X-Content-Type-Options "nosniff"
+</Files>
