@@ -1,8 +1,9 @@
-# PSLab - salon-emploi
+# Bypass WordPress rewrite rules for this directory
 Options -Indexes
+RewriteEngine Off
 
-# PHP via proxy uniquement
 <Files "claude-proxy.php">
     Header set Access-Control-Allow-Origin "https://pscreativelab.ca"
-    Header set X-Content-Type-Options "nosniff"
+    Header set Access-Control-Allow-Methods "POST, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type"
 </Files>
