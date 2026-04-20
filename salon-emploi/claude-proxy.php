@@ -1,39 +1,23 @@
 <?php
-// P&S Lab - Claude API Proxy
-// Déposer dans : public_html/salon-emploi/claude-proxy.php
-
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: https://pscreativelab.ca');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(200); exit(); }
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') { http_response_code(405); echo json_encode(['error' => 'Method not allowed']); exit(); }
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode(['error' => 'Method not allowed']);
-    exit();
-}
-
-// Clé API — ne jamais exposer côté client
 define('ANTHROPIC_API_KEY', getenv('ANTHROPIC_API_KEY') ?: 'METTRE_CLE_ICI');
 
 $input = json_decode(file_get_contents('php://input'), true);
-if (!$input) {
-    http_response_code(400);
-    echo json_encode(['error' => 'Invalid JSON']);
-    exit();
-}
+if (!$input) { http_response_code(400); echo json_encode(['error' => 'Invalid JSON']); exit(); }
 
-// Rate limiting simple par IP (optionnel mais recommandé)
+// Rate limiting simple
 $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
 $rate_file = sys_get_temp_dir() . '/pslab_rate_' . md5($ip) . '.json';
 $now = time();
-$window = 3600; // 1 heure
-$max_requests = 20; // max 20 analyses par IP par heure
+$window = 3600;
+$max_requests = 15;
 
 if (file_exists($rate_file)) {
     $rate_data = json_decode(file_get_contents($rate_file), true);
@@ -49,13 +33,17 @@ if (file_exists($rate_file)) {
 }
 file_put_contents($rate_file, json_encode($rate_data));
 
-// Appel API Anthropic
 $payload = [
     'model'      => 'claude-sonnet-4-20250514',
-    'max_tokens' => 2000,
+    'max_tokens' => 4000,
     'system'     => $input['system'] ?? '',
     'messages'   => $input['messages'] ?? [],
 ];
+
+// Ajouter tools si fournis (web_search)
+if (!empty($input['tools'])) {
+    $payload['tools'] = $input['tools'];
+}
 
 $ch = curl_init('https://api.anthropic.com/v1/messages');
 curl_setopt_array($ch, [
@@ -66,8 +54,9 @@ curl_setopt_array($ch, [
         'Content-Type: application/json',
         'x-api-key: ' . ANTHROPIC_API_KEY,
         'anthropic-version: 2023-06-01',
+        'anthropic-beta: interleaved-thinking-2025-05-14',
     ],
-    CURLOPT_TIMEOUT        => 60,
+    CURLOPT_TIMEOUT        => 120,
 ]);
 
 $response = curl_exec($ch);
