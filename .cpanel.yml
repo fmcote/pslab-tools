@@ -1,9 +1,8 @@
 ---
 deployment:
   tasks:
-    - export REPOPATH=/home2/qqkzfxmy/public_html/pslab-tools
     - export DEPLOYPATH=/home2/qqkzfxmy/public_html/salon-emploi
     - /bin/rm -rf $DEPLOYPATH/salon-emploi
-    - /bin/cp $REPOPATH/salon-emploi/salon-emploi.html $DEPLOYPATH/salon-emploi.html
-    - /bin/cp $REPOPATH/salon-emploi/claude-proxy.php $DEPLOYPATH/claude-proxy.php
-    - /bin/cp $REPOPATH/salon-emploi/.htaccess $DEPLOYPATH/.htaccess
+    - /bin/cp salon-emploi/salon-emploi.html $DEPLOYPATH/salon-emploi.html
+    - /bin/cp salon-emploi/claude-proxy.php $DEPLOYPATH/claude-proxy.php
+    - /bin/cp salon-emploi/.htaccess $DEPLOYPATH/.htaccess
